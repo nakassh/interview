@@ -1,0 +1,43 @@
+---
+# tasks for redhat based distros
+
+- name: Remove old docker packages
+  dnf:
+    state: absent
+    name:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+      - docker-selinux 
+      - docker-engine-selinux 
+
+- name: Install docker required packages
+  dnf:
+    state: latest
+    name: 
+      - dnf-plugins-core
+
+- name: Set docker repository
+  command: dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  args:
+    creates: /etc/yum.repos.d/docker-ce.repo
+    warn: false
+
+- name: Install docker required packages
+  dnf:
+    state: latest
+    name: 
+      - docker-ce 
+      - docker-ce-cli 
+      - containerd.io
+
+- name: Activate docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes

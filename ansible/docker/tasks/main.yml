@@ -1,0 +1,14 @@
+---
+# tasks file for docker
+
+- name: Include tasks for Fedora
+  include_tasks:
+    file: fedora.yml
+  when:
+    - ansible_distribution == "Fedora"
+  
+- name: Include tasks for Centos
+  include_tasks:
+    file: centos.yml
+  when:
+    - ansible_distribution == "CentOS"
